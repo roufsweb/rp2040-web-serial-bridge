@@ -1,0 +1,14 @@
+# Target labels
+ picotoolBuild
+# Source files and their labels
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/CMakeFiles/picotoolBuild
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/CMakeFiles/picotoolBuild.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/CMakeFiles/picotoolBuild-complete.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-build.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-configure.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-download.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-install.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-mkdir.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-patch.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-test.rule
+/home/rouf/hardware-project/rp2040-web-serial-bridge/build/picotool/src/picotoolBuild-stamp/picotoolBuild-update.rule
