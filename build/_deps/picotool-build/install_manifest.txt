@@ -1,7 +1,0 @@
-/home/rouf/hardware-project/rp2040-web-serial-bridge/build/_deps/picotool/picotool
-/home/rouf/hardware-project/rp2040-web-serial-bridge/build/_deps/picotool/picotoolTargets.cmake
-/home/rouf/hardware-project/rp2040-web-serial-bridge/build/_deps/picotool/picotoolTargets-release.cmake
-/home/rouf/hardware-project/rp2040-web-serial-bridge/build/_deps/picotool/picotoolConfig.cmake
-/home/rouf/hardware-project/rp2040-web-serial-bridge/build/_deps/picotool/picotoolConfigVersion.cmake
-/home/rouf/hardware-project/rp2040-web-serial-bridge/build/_deps/picotool/enc_bootloader.elf
-/home/rouf/hardware-project/rp2040-web-serial-bridge/build/_deps/picotool/enc_bootloader_mbedtls.elf
