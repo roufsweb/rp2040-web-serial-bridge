@@ -235,6 +235,7 @@ label {
 .system-msg { color: #555; font-style: italic; }
 .rx-msg { color: #fff; }
 .tx-msg { color: var(--accent-color); }
+.success-msg { color: var(--success-color); font-weight: 600; }
 .error-msg { color: var(--error-color); }
 
 .input-area {

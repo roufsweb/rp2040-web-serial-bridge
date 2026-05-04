@@ -1,8 +1,8 @@
 let port;
 let reader;
 let writer;
-let inputHistory = [];
-let historyIndex = -1;
+const COMMON_BAUDS = [9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600];
+let isScanning = false;
 
 const connectBtn = document.getElementById('connect-btn');
 const baudRateSelect = document.getElementById('baud-rate');
@@ -12,6 +12,7 @@ const terminalOutput = document.getElementById('terminal-output');
 const terminalInput = document.getElementById('terminal-input');
 const sendBtn = document.getElementById('send-btn');
 const clearBtn = document.getElementById('clear-btn');
+const scanBtn = document.getElementById('scan-btn');
 const statusIndicator = document.getElementById('connection-status');
 const rxLed = document.getElementById('rx-activity');
 const txLed = document.getElementById('tx-activity');
@@ -40,6 +41,15 @@ terminalInput.addEventListener('keypress', (e) => {
 
 clearBtn.addEventListener('click', () => {
     terminalOutput.innerHTML = '';
+});
+
+scanBtn.addEventListener('click', async () => {
+    if (isScanning) {
+        isScanning = false;
+        scanBtn.textContent = 'Scan Baud Rate';
+        return;
+    }
+    await scanBaudRate();
 });
 
 // Web Serial Logic
@@ -157,8 +167,67 @@ function flashLed(led) {
     setTimeout(() => led.classList.remove('active'), 50);
 }
 
+async function scanBaudRate() {
+    if (!('serial' in navigator)) return;
+    
+    isScanning = true;
+    scanBtn.textContent = 'Stop Scan';
+    logToTerminal('Scanner', 'Starting baud rate scan...', 'system-msg');
+    
+    try {
+        if (!port) {
+            port = await navigator.serial.requestPort();
+        }
+
+        for (const baud of COMMON_BAUDS) {
+            if (!isScanning) break;
+            
+            logToTerminal('Scanner', `Testing ${baud} baud...`, 'system-msg');
+            
+            try {
+                await port.open({ baudRate: baud });
+                const reader = port.readable.getReader();
+                
+                // Wait for a short duration to see if data arrives
+                const timeout = new Promise(resolve => setTimeout(() => resolve(null), 1000));
+                const dataRead = reader.read();
+                
+                const result = await Promise.race([timeout, dataRead]);
+                
+                if (result && result.value && result.value.length > 0) {
+                    logToTerminal('Scanner', `Success! Data detected at ${baud} baud.`, 'success-msg');
+                    baudRateSelect.value = baud.toString();
+                    reader.releaseLock();
+                    isScanning = false;
+                    scanBtn.textContent = 'Scan Baud Rate';
+                    // Keep it open
+                    statusIndicator.textContent = 'Connected';
+                    statusIndicator.classList.replace('disconnected', 'connected');
+                    connectBtn.textContent = 'Disconnect';
+                    readLoop();
+                    return;
+                }
+                
+                await reader.cancel();
+                reader.releaseLock();
+                await port.close();
+            } catch (err) {
+                console.error(`Baud ${baud} failed:`, err);
+            }
+        }
+        
+        logToTerminal('Scanner', 'Scan complete. No clear data detected.', 'system-msg');
+    } catch (err) {
+        logToTerminal('Scanner', `Scan error: ${err.message}`, 'error-msg');
+    } finally {
+        isScanning = false;
+        scanBtn.textContent = 'Scan Baud Rate';
+    }
+}
+
 // Check for Web Serial support
 if (!('serial' in navigator)) {
     logToTerminal('Warning', 'Web Serial API is not supported in this browser. Please use Chrome, Edge, or Opera.', 'error-msg');
     connectBtn.disabled = true;
+    scanBtn.disabled = true;
 }
